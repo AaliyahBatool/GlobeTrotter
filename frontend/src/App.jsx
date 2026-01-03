@@ -1,10 +1,19 @@
-function App() {
+import React from 'react'
+import Navbar from './components/section/Navbar.jsx'
+import  {Routes,Route, Navigate}from 'react-router-dom'
+import Landing from './pages/Landing.jsx'
+import Login from './pages/Login.jsx'
+
+const App = () => {
   return (
-    <>
-      <h1 className="text-4xl font-extrabold text-red-500">
-        Tailwind
-      </h1>
-    </>
+    <div>
+      <Navbar/>
+      <Routes>
+        <Route path='/' element={<Landing/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='*' element={<Navigate to='/'/>}/>
+      </Routes>
+    </div>
   )
 }
 
