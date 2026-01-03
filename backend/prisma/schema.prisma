@@ -5,12 +5,13 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "postgresql"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"//npx neonctl@latest init
+  provider = "postgresql"
+  url = env("DATABASE_URL") //npx neonctl@latest init
 }
 
 model User {
@@ -61,13 +62,10 @@ model Activity {
   estimatedCost Float?
   durationHrs Float?
 
-  lat         Float?
-  lon         Float?
-
   stopId      Int
   stop        Stop     @relation(fields: [stopId], references: [id])
 
-  source      DataSource
+  // source      DataSource
 }
 
 enum ActivityCategory {
