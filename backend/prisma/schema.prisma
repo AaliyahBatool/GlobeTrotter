@@ -13,6 +13,68 @@ datasource db {
   provider = "postgresql"//npx neonctl@latest init
 }
 
-model User{
-  id Int @id @default(autoincrement())
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique
+  password  String
+
+  trips     Trip[]
+  createdAt DateTime @default(now())
+}
+
+
+model Trip {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  isPublic    Boolean  @default(false)
+
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+
+  stops       Stop[]
+  createdAt   DateTime @default(now())
+}
+
+model Stop {
+  id        Int      @id @default(autoincrement())
+  cityName  String
+  country   String?
+  startDate DateTime
+  endDate   DateTime
+  order     Int
+
+  tripId    Int
+  trip      Trip     @relation(fields: [tripId], references: [id])
+
+  activities Activity[]
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  name        String
+  category    ActivityCategory
+  description String?
+  estimatedCost Float?
+  durationHrs Float?
+
+  lat         Float?
+  lon         Float?
+
+  stopId      Int
+  stop        Stop     @relation(fields: [stopId], references: [id])
+
+  source      DataSource
+}
+
+enum ActivityCategory {
+  SIGHTSEEING
+  FOOD
+  ADVENTURE
+  CULTURE
+  SHOPPING
+  NATURE
 }
